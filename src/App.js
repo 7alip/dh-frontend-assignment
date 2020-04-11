@@ -1,14 +1,20 @@
 import React from "react";
+import { ThemeProvider } from "styled-components";
+
+import InputBase from "./components/InputBase";
+import GlobalStyle from "./styles/GlobalStyle";
+import SearchForm from "./components/SearchForm";
+import Container from "./components/Container";
 
 const App = () => {
   return (
-    <>
-      <div>Import your component here!</div>
-      <div>
-        Have a look at the readme.md file for what is expected. And as always:
-        questions are welcome!
-      </div>
-    </>
+    <ThemeProvider theme={{}}>
+      <GlobalStyle />
+      <Container>
+        <SearchForm />
+        <InputBase label="Sample" />
+      </Container>
+    </ThemeProvider>
   );
 };
 
