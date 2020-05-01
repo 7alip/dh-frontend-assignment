@@ -11,8 +11,16 @@ const App = () => {
     <ThemeProvider theme={{}}>
       <GlobalStyle />
       <Container>
-        <SearchForm />
-        <InputBase label="Sample" />
+        <SearchForm id="search1" />
+        <InputBase id="text" label="Sample" />
+        <div
+          style={{
+            height: "calc(100vh - 400px)",
+            border: "1px solid gray",
+            marginTop: "16px",
+          }}
+        />
+        <SearchForm id="search2" />
       </Container>
     </ThemeProvider>
   );

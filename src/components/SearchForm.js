@@ -5,7 +5,8 @@ import InputBase from "./InputBase";
 import { Search, ChevronDown } from "./Icons";
 
 import data from "../../MOCK_DATA.json";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { useClientRect } from "../hooks/useClientRect";
 
 const Wrapper = styled.div`
   position: relative;
@@ -17,23 +18,29 @@ const ResultContainer = styled.div`
   border-radius: 7px;
   box-shadow: 0 5px 15px 0 rgba(74, 74, 74, 0.15);
   background-color: #ffffff;
-  padding-top: 16px;
-  padding-bottom: 16px;
   max-height: 300px;
   overflow-y: auto;
-  transform: translateY(5px);
   z-index: 1;
-  left: 0%;
-  right: -30px;
+  left: 0;
+  right: 0;
+  ${(props) =>
+    props.dir === "down"
+      ? css`
+          top: 75px;
+        `
+      : css`
+          bottom: 75px;
+        `}
+`;
 
-  & > div {
-    line-height: 30px;
-    cursor: pointer;
-    padding: 10px 16px;
+const ResultItem = styled.div`
+  line-height: 30px;
+  cursor: pointer;
+  padding: 10px 16px;
+  margin: 0;
 
-    &:hover {
-      background-color: #f7f7f7;
-    }
+  &:hover {
+    background-color: #f7f7f7;
   }
 `;
 
@@ -41,6 +48,10 @@ const SearchForm = (props) => {
   const [list, setList] = useState(null);
   const [input, setInput] = useState("");
   const [isFocus, setIsFocus] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [boxDirection, setBoxDirection] = useState("down");
+
+  const [rect, ref] = useClientRect();
 
   useEffect(() => {
     const include = (text) => (text.slice(0, -1) ? text.slice(0, -1) : text);
@@ -52,13 +63,24 @@ const SearchForm = (props) => {
     setList(filteredList);
   }, [input]);
 
+  useEffect(() => {
+    if (!rect) return;
+
+    if (rect.bottom + 300 < window.innerHeight || rect.top < 300) {
+      setBoxDirection("down");
+    } else {
+      setBoxDirection("up");
+    }
+
+    isFocus ? setOpen(true) : setOpen(false);
+  }, [isFocus]);
+
   return (
     <Wrapper
+      ref={ref}
       onBlur={(e) => {
         e.stopPropagation();
-        setTimeout(() => {
-          setIsFocus(false);
-        }, 200);
+        setIsFocus(false);
       }}
     >
       <InputBase
@@ -69,17 +91,18 @@ const SearchForm = (props) => {
         rightIcon={<ChevronDown />}
         label="Contact"
         placeholder="Type or search"
+        {...props}
       />
-      {isFocus && list && (
-        <ResultContainer>
+      {open && list && (
+        <ResultContainer dir={boxDirection}>
           {list.length ? (
             list.map((item, i) => (
-              <div key={i} onClick={() => setInput(item.name)}>
+              <ResultItem key={i} onClick={() => setInput(item.name)}>
                 {item.name}
-              </div>
+              </ResultItem>
             ))
           ) : (
-            <div>No result!</div>
+            <ResultItem>No result!</ResultItem>
           )}
         </ResultContainer>
       )}

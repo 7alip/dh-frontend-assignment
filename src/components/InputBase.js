@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 
 import styled from "styled-components";
 
-const Wrapper = styled.div`
+const FormField = styled.div`
   position: relative;
   display: flex;
   flex-direction: column-reverse;
@@ -16,6 +16,7 @@ const StyledInput = styled.input`
   border: 1px solid #bfc5cd;
   appearance: none;
   border-radius: 7px;
+  background-color: transparent;
 
   &:hover,
   &:focus {
@@ -90,16 +91,25 @@ const StyledInput = styled.input`
 `;
 
 const InputBase = (props) => {
-  console.log("props.value", props.value);
+  const inputRef = useRef();
   return (
-    <Wrapper>
-      <StyledInput id="search" value={props.value} {...props} />
-      {props.label && <label htmlFor="search">{props.label}</label>}
+    <FormField>
+      <StyledInput
+        ref={inputRef}
+        id={props.id || "search"}
+        value={props.value}
+        {...props}
+      />
+      {props.label && (
+        <label htmlFor={props.id || "search"}>{props.label}</label>
+      )}
       {props.leftIcon && <span className="icon--prefix">{props.leftIcon}</span>}
       {props.rightIcon && (
-        <span className="icon--suffix">{props.rightIcon}</span>
+        <span onClick={() => inputRef.current.focus()} className="icon--suffix">
+          {props.rightIcon}
+        </span>
       )}
-    </Wrapper>
+    </FormField>
   );
 };
 
