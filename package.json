@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack-dev-server --hot --config ./webpack.config.js",
     "test": "jest --coverage",
-    "build": "webpack"
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
