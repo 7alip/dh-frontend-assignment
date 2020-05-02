@@ -11,16 +11,19 @@ const App = () => {
     <ThemeProvider theme={{}}>
       <GlobalStyle />
       <Container>
-        <SearchForm id="search1" />
-        <InputBase id="text" label="Sample" />
-        <div
-          style={{
-            height: "calc(100vh - 400px)",
-            border: "1px solid gray",
-            marginTop: "16px",
-          }}
-        />
-        <SearchForm id="search2" />
+        <div>
+          <h3>Base input field</h3>
+          <InputBase id="text" label="Sample" />
+        </div>
+        <div>
+          <h3>Dropdown Bottom</h3>
+          <SearchForm id="search1" />
+        </div>
+        <div style={{ height: "calc(100vh - 500px)" }} />
+        <div>
+          <h3>Dropdown Top</h3>
+          <SearchForm id="search2" />
+        </div>
       </Container>
     </ThemeProvider>
   );

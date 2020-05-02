@@ -7,7 +7,7 @@ const StyledContainer = styled.div`
   padding-left: 15px;
   padding-right: 15px;
 
-  max-width: 1100px;
+  max-width: 700px;
 `;
 
 const Container = (props) => {
