@@ -91,11 +91,10 @@ const StyledInput = styled.input`
 `;
 
 const InputBase = (props) => {
-  const inputRef = useRef();
   return (
     <FormField>
       <StyledInput
-        ref={inputRef}
+        ref={props.ref}
         id={props.id || "search"}
         value={props.value}
         {...props}

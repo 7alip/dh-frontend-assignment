@@ -1,7 +1,7 @@
 module.exports = {
   verbose: true,
   testRegex: ".*/__tests__/.*\\.test\\.js$",
-  setupTestFrameworkScriptFile: "<rootDir>/config/jest_enzyme_react.js",
+  setupFilesAfterEnv: ["<rootDir>/config/jest_enzyme_react.js"],
   collectCoverageFrom: ["**/src/**"],
   coveragePathIgnorePatterns: [
     "<rootDir>/src/assets/",
@@ -11,12 +11,12 @@ module.exports = {
     "<rootDir>/src/__dev__/",
     "<rootDir>/src/styles/",
     "/styleguideData/",
-    "/__testdata__/"
+    "/__testdata__/",
   ],
   coverageReporters: ["json", "lcov", "text", "clover", "text-summary"],
   moduleNameMapper: {
     "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
-      "<rootDir>/__mocks__/fileMock.js"
+      "<rootDir>/__mocks__/fileMock.js",
   },
   globals: {
     API_ENDPOINT: "",
@@ -35,6 +35,6 @@ module.exports = {
     INTERCOM_APP_ID: "",
     HOTJAR_APP_ID: "",
     BASE_URL: "",
-    IS_TEST: true
-  }
+    IS_TEST: true,
+  },
 };
