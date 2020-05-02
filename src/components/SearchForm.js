@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import InputBase from "./InputBase";
+import Dropdown from "./Dropdown";
 import { Search, ChevronDown } from "./Icons";
 
 import data from "../../MOCK_DATA.json";
@@ -10,38 +11,6 @@ import { useClientRect } from "../hooks/useClientRect";
 
 const Wrapper = styled.div`
   position: relative;
-`;
-
-const ResultContainer = styled.div`
-  position: absolute;
-  border: 1px solid #bfc5cd;
-  border-radius: 7px;
-  box-shadow: 0 5px 15px 0 rgba(74, 74, 74, 0.15);
-  background-color: #ffffff;
-  max-height: 300px;
-  overflow-y: auto;
-  z-index: 1;
-  left: 0;
-  right: 0;
-  ${(props) =>
-    props.dir === "down"
-      ? css`
-          top: 75px;
-        `
-      : css`
-          bottom: 75px;
-        `}
-`;
-
-const ResultItem = styled.div`
-  line-height: 30px;
-  cursor: pointer;
-  padding: 10px 16px;
-  margin: 0;
-
-  &:hover {
-    background-color: #f7f7f7;
-  }
 `;
 
 const SearchForm = (props) => {
@@ -80,7 +49,9 @@ const SearchForm = (props) => {
       ref={ref}
       onBlur={(e) => {
         e.stopPropagation();
-        setIsFocus(false);
+        setTimeout(() => {
+          setIsFocus(false);
+        }, 200);
       }}
     >
       <InputBase
@@ -94,17 +65,11 @@ const SearchForm = (props) => {
         {...props}
       />
       {open && list && (
-        <ResultContainer dir={boxDirection}>
-          {list.length ? (
-            list.map((item, i) => (
-              <ResultItem key={i} onClick={() => setInput(item.name)}>
-                {item.name}
-              </ResultItem>
-            ))
-          ) : (
-            <ResultItem>No result!</ResultItem>
-          )}
-        </ResultContainer>
+        <Dropdown
+          setInput={(name) => setInput(name)}
+          list={list}
+          dir={boxDirection}
+        />
       )}
     </Wrapper>
   );
